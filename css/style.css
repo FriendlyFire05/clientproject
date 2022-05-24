@@ -1,3 +1,17 @@
-h1 {
-  color: fuchsia;
+.website-name {
+  color: black;
+  display: flex;
+  justify-content: space-around;
+}
+
+.intro-sentence {
+  color: black;
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-engine {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
 }

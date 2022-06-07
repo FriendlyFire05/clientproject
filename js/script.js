@@ -1,12 +1,3 @@
-/* global $ */
-
-console.log('hi');
-
-$('h1').click(function(){
-    $('h1').css('color', 'green');
-    $('h1').text('Ready to Code');
-});
-
 // 'https://youtube.googleapis.com/youtube/v3/search?q=doctorstrange&key=[YOUR_API_KEY]' \
 //   --header 'Authorization: Bearer [YOUR_ACCESS_TOKEN]' \
 //   --header 'Accept: application/json' \
@@ -22,8 +13,12 @@ $('h1').click(function(){
 //         console.log(data);
 //     });
 // });
+
 let apiMovieUrl = `https://api.themoviedb.org/3/discover/movie?api_key=ba641dd317ef0ebb223f092b37068838&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
-let RanGenNum = 0
+let imageUrl = `https://image.tmb.org/t/p/w500`;
+let genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=ba641dd317ef0ebb223f092b37068838`
+
+
 
 $("button").click(function() {
   let SearchedMovie = $("input").val();
@@ -38,7 +33,10 @@ fetch(SearchEngine)
   .then(function(data) {
     data.results.forEach((element, index) =>                  
     {
-    console.log(element);
+    console.log(data);
+      
+let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba641dd317ef0ebb223f092b37068838`
+      
     let popularityScoreClass = "popularScore";
       if(element.popularity > 90){
         popularityScoreClass = "popularScore"
@@ -50,6 +48,21 @@ fetch(SearchEngine)
         popularityScoreClass = "unpopularScore"
       }
     
+    let ratingClass = "ratingClass";
+      if(element.vote_average > 7.5) {
+        ratingClass = "highRating"
+      }
+      if(element.vote_average > 4.5 && element.vote_average < 7.5) {
+        ratingClass = "midRating"
+      }
+      if(element.vote_average < 4.5) {
+        ratingClass = "lowRating"
+      }
+    
+
+      
+
+      
     let output = `
                   <ul>
                   <div class="movieInfo">
@@ -62,30 +75,24 @@ fetch(SearchEngine)
                   <br>
                   <b>Year of Release:</b> ${element.release_date}
                   <br>
-          
                   <div class="resultEntry"><b>Popularity Score:</b> <div class="${popularityScoreClass}">${element.popularity}</div></div>
+                  <div class="resultEntry"><b>Rating by Votes:</b> <div class="${ratingClass}">${element.vote_average}</div></div>
+                  <b>Votes:</b> ${element.vote_count}
+                  <p><img src="https://image.tmb.org/t/p/w500${element.poster_path}" alt+"${element.original_title}"></p>
                   </div>
                   <hr>
                   </div>
                   <br>
                   </br>
                   </ul>
-                  
                   `
-    if(element.original_language === "en") {
-      
-    }
-      
-
-      
-      
-    $(".results").append(output)
-      
-        
+                   
+    $(".results").append(output)   
     })
     
-  })
+    })
 
+  
 });
 
 

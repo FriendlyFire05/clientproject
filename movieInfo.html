@@ -18,14 +18,19 @@
     <h1> Get all the info you need about movies.</h1>
     </div>
 
-
     <div class="search-engine">
-    <input placeholder = "Enter Movie Name Here">
-    <button> Search</button>  
+    <input id="searchText" placeholder = "Enter Movie Name Here">
+    <button id="searchButton"> Search</button>  
     </div>
+    
     <br>
+    <div class="sortFieldsButton"><input id="sortFields" placeholder = "Sort Fields"></div>
     <br>
- 
+    <div class="sort-buttons">
+    <button id="sortAscending">Sort by Ascending</button>
+    <button id="sortDescending">Sort by Descending</button>
+    </div>
+   <br>
     <div class="main">
       <ul class ="results"></ul>
     </div>    

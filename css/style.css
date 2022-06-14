@@ -29,15 +29,17 @@
 
 }
 
-button {
+.searchButton {
   background-color:red;
   background-image: linear-gradient(to right, red , orange);
+  border-radius: 2px solid;
 }
 
 input {
   background-color:red;
   background-color: lightgray;
   margin-right:5px;
+  
 }
 
 .movieInfo {
@@ -86,3 +88,14 @@ input {
   color: red;
 }
 
+.sort-buttons {
+  display:flex;
+  justify-content: space-around;
+  text-decoration: none;
+  border-radius: 100px;
+}
+
+.sortFieldsButton {
+  display:flex;
+  justify-content: center;
+}

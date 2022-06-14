@@ -17,12 +17,33 @@
 let apiMovieUrl = `https://api.themoviedb.org/3/discover/movie?api_key=ba641dd317ef0ebb223f092b37068838&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
 let imageUrl = `https://image.tmb.org/t/p/w500`;
 let genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=ba641dd317ef0ebb223f092b37068838`
+let searchOutput = [];
 
+$("#sortDescending").click(function() {
+  searchOutput.sort(function(a,b){
+    return a.popularity < b.popularity;   
+})
+    $(".results").empty();
+  searchOutput.forEach((element, index) => {
+    let output = elementToHTML(element);  
+    $(".results").append(output)
+  })
+})
+$("#sortAscending").click(function() {
+  searchOutput.sort(function(a,b){
+    return a.popularity > b.popularity;                                  
+})
 
-
-$("button").click(function() {
-  let SearchedMovie = $("input").val();
+  $(".results").empty();
+  searchOutput.forEach((element, index) => {
+    let output = elementToHTML(element);  
+    $(".results").append(output)
+  });
+})  
+$("#searchButton").click(function() {
+  let SearchedMovie = $("#searchText").val();
   $(".results").empty()
+
   
 let SearchEngine = `https://api.themoviedb.org/3/search/movie?api_key=ba641dd317ef0ebb223f092b37068838&query=${SearchedMovie}`  
 
@@ -31,14 +52,24 @@ fetch(SearchEngine)
     return response.json();
 })
   .then(function(data) {
+    let searchOutputTemp = [];
     data.results.forEach((element, index) =>                  
     {
     console.log(data);
-      
-let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba641dd317ef0ebb223f092b37068838`
-      
-    let popularityScoreClass = "popularScore";
-      if(element.popularity > 90){
+    let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba641dd317ef0ebb223f092b37068838`
+    searchOutputTemp.push(element);
+    let output = elementToHTML(element);  
+    $(".results").append(output)   
+    })
+    searchOutput = searchOutputTemp;
+    })
+
+  
+});
+
+function elementToHTML(element) {
+  let popularityScoreClass = "popularScore";
+      if(element.popularity >= 90){
         popularityScoreClass = "popularScore"
       }
       if(element.popularity > 50 && element.popularity< 90){
@@ -49,7 +80,7 @@ let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba6
       }
     
     let ratingClass = "ratingClass";
-      if(element.vote_average > 7.5) {
+      if(element.vote_average >= 7.5) {
         ratingClass = "highRating"
       }
       if(element.vote_average > 4.5 && element.vote_average < 7.5) {
@@ -58,12 +89,7 @@ let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba6
       if(element.vote_average < 4.5) {
         ratingClass = "lowRating"
       }
-    
-
-      
-
-      
-    let output = `
+  let output = `
                   <ul>
                   <div class="movieInfo">
                   <hr>
@@ -86,15 +112,8 @@ let apiMoveIdUrl = `https://api.themoviedb.org/3/movie/${element.id}?api_key=ba6
                   </br>
                   </ul>
                   `
-                   
-    $(".results").append(output)   
-    })
-    
-    })
-
-  
-});
-
+  return output;
+  }
 
 
 
